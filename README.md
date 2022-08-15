@@ -62,3 +62,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+SETUP
+
+Clone the repository to your local "https://github.com/isondbordeos/laravel_website.git"
+Set up the directory of the project files
+Open the project using Visual Studio Code
+Inside VS Code, open a terminal and run "composer install" to install the project's dependencies / packages
+Execute "npm install"
+Create a copy of your .env file and run "cp .env.example .env"
+Execute "php artisan key:generate"
+run "php artisan serve"
+load it on your browser http://127.0.0.1:8000/
