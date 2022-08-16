@@ -13,8 +13,8 @@ class HomeController extends Controller
 {
     public function viewSlider(){
         //get all data using Eloquent Model
-        $sliderDatas = Slider::all();
-
+        $sliderDatas = Slider::limit(1)->get();
+        
         return view('admin.home.slider', compact('sliderDatas'));
     }
 
