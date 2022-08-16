@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Demo\DemoController;
 use App\Http\Controllers\Home\HomeController;
 
@@ -15,10 +16,10 @@ use App\Http\Controllers\Home\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('frontend.index');
+Route::controller(FrontendController::class)->group(function(){
+    Route::get('/', 'index');
 });
+
 
 Route::controller(DemoController::class)->group(function(){
     //Naming the route
