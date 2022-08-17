@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Home;
 
+use File;
 use App\Models\Home;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use File;
+use Image;
 
 class HomeController extends Controller
 {
     public function viewSlider(){
         //get all data using Eloquent Model
-        $sliderDatas = Slider::all();
-
+        $sliderDatas = Slider::limit(1)->get();
+        
         return view('admin.home.slider', compact('sliderDatas'));
     }
 
@@ -28,12 +29,15 @@ class HomeController extends Controller
         if($request->file('slider_image')){
             $file = $request->file('slider_image');
             
-            $filename = date('YmdHi').$file->getClientOriginalName();
+            $filename = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
+
             $path = public_path('upload/home');
             if(!File::isDirectory($path)){
                 File::makeDirectory($path, 0777, true, true);
             }
-            $file->move($path, $filename);
+
+            Image::make($file)->resize(636, 852)->save('upload/home', $filename);
+            
             $formFields['slider_image'] = $filename;
         }
 
@@ -57,14 +61,25 @@ class HomeController extends Controller
         if($request->file('slider_image')){
             $file = $request->file('slider_image');
             
-            $filename = date('YmdHi').$file->getClientOriginalName();
+            $filename = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
+
             $path = public_path('upload/home');
             if(!File::isDirectory($path)){
                 File::makeDirectory($path, 0777, true, true);
             }
-            $file->move($path, $filename);
+
+            Image::make($file)->resize(636, 852)->save('upload/home/'.$filename);
+            // $save_url = 'upload/home/'.$filename;
+
             $formFields['slider_image'] = $filename;
         }
+        // other way to update but without validation
+        // Home::findOrFail($slider)->update([
+        //     'title' => $request->title,
+        //     'short_title' => $request->short_title,
+        //     'slider_image' => $save_url,
+        //     'video_url' => $request->video_url
+        // ]);
 
         $slider->update($formFields);
 
