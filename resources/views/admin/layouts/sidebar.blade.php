@@ -22,7 +22,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('home.slider') }}">Slider</a></li>
-                        <li><a href="{{ route('about.page') }}">About Us</a></li>
+                        <li><a href="{{ route('home.about_page') }}">About Us</a></li>
                     </ul>
                 </li>
 

@@ -19,6 +19,7 @@ use App\Http\Controllers\Home\AboutController;
 */
 Route::controller(FrontendController::class)->group(function(){
     Route::get('/', 'index');
+    Route::get('/about-us', 'aboutus');
 });
 
 
@@ -49,9 +50,9 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(AboutController::class)->group(function(){
         //Naming the route
-        Route::get('/about-us', 'viewAboutUs')->name('about.page');
-        Route::post('/about-us/add', 'storeAboutUs')->name('about.add');
-        Route::put('/about-us/update/{about}', 'updateAboutUs')->name('about.update');
+        Route::get('/home/about-us', 'viewAboutUs')->name('home.about_page');
+        Route::post('/home/about-us/add', 'storeAboutUs')->name('home.about_add');
+        Route::put('/home/about-us/update/{about}', 'updateAboutUs')->name('home.about_update');
     });
 });
 

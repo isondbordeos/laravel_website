@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,24 @@ class FrontendController extends Controller
         if(count($sliderDatas) > 0){
             $sliderData = $sliderDatas[0];
         }
-        return view('frontend.index', compact('sliderData'));
+
+        //get all data using Eloquent Model
+        $aboutDatas = About::limit(1)->get();
+        $aboutData = array();
+        if(count($aboutDatas) > 0){
+            $aboutData = $aboutDatas[0];
+        }
+        return view('frontend.index', compact('sliderData', 'aboutData'));
+    }
+
+    public function aboutus(){
+        //get all data using Eloquent Model
+        $aboutDatas = About::limit(1)->get();
+        $aboutData = array();
+        if(count($aboutDatas) > 0){
+            $aboutData = $aboutDatas[0];
+        }
+
+        return view('frontend.about_us', compact('aboutData'));
     }
 }

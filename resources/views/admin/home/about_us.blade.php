@@ -8,7 +8,7 @@
                     <div class="card"><br>
                         <div class="card-body">
                             <h4 class="card-title">Edit about</h4>
-                            <form action="{{ count($aboutDatas) > 0 ? route('about.update', $aboutDatas[0]->id) : route('about.add') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ count($aboutDatas) > 0 ? route('home.about_update', $aboutDatas[0]->id) : route('home.about_add') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @if(count($aboutDatas) > 0)
                                 @method('PUT')
