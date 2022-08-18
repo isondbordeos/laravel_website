@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Demo\DemoController;
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Home\AboutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/home/slide', 'viewSlider')->name('home.slider');
         Route::post('/home/add/slider', 'storeSlider')->name('home.add_slider');
         Route::put('/home/update/slider/{slider}', 'updateSlider')->name('home.update_slider');
+    });
+
+    Route::controller(AboutController::class)->group(function(){
+        //Naming the route
+        Route::get('/about-us', 'viewAboutUs')->name('about.page');
+        Route::post('/about-us/add', 'storeAboutUs')->name('about.add');
+        Route::put('/about-us/update/{about}', 'updateAboutUs')->name('about.update');
     });
 });
 
