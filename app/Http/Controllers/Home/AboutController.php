@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Home;
 
-use App\Models\About;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use File;
 use Image;
+use App\Models\About;
+use App\Models\MultiImage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 
 class AboutController extends Controller
 {
@@ -36,7 +38,7 @@ class AboutController extends Controller
                 File::makeDirectory($path, 0777, true, true);
             }
 
-            Image::make($file)->resize(636, 852)->save('upload/about', $filename);
+            Image::make($file)->resize(636, 852)->save('upload/about/'.$filename);
             
             $formFields['about_img'] = $filename;
         }
@@ -90,5 +92,95 @@ class AboutController extends Controller
         );
 
         return back()->with($arrNotif);
+    }
+
+    public function aboutMultiImage(){
+        
+        return view('admin.about_page.multi_image');
+    }
+
+    public function storeMultiImage(Request $request){
+        $imgs = $request->file('about_multi_image');
+
+        foreach ($imgs as $multi_img) {
+            $filename = hexdec(uniqid()).'.'.$multi_img->getClientOriginalExtension();
+
+            $path = public_path('upload/about/multi');
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path, 0777, true, true);
+            }
+
+            Image::make($multi_img->getRealPath())->resize(220, 220)->save('upload/about/multi/'.$filename);
+            
+            MultiImage::insert([
+                'multi_image' => $filename,
+                'created_at' => Carbon::now()
+            ]);
+        }
+
+        $arrNotif = array(
+            'message' => 'About Us Multi Image Inserted Sucessfully',
+            'alert-type' => 'success'
+        );
+        
+        return redirect()->back()->with($arrNotif);
+        
+    }
+
+    public function allMultiImage(){
+        //get all data using Eloquent Model
+        $aboutMultiImgDatas = MultiImage::all();
+
+        return view('admin.about_page.all_multi_image', compact('aboutMultiImgDatas'));
+    }
+
+    public function editMultiImage(MultiImage $multiImage){
+        return view('admin.about_page.edit_multi_image', compact('multiImage'));
+    }
+
+    public function updateMultiImage(Request $request, MultiImage $multiImage){
+
+        //check and store the image uploaded
+        if($request->file('about_multi_image')){
+            $multi_img = $request->file('about_multi_image');
+            
+            $filename = hexdec(uniqid()).'.'.$multi_img->getClientOriginalExtension();
+
+            $path = public_path('upload/about/multi');
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path, 0777, true, true);
+            }
+
+            Image::make($multi_img->getRealPath())->resize(220, 220)->save('upload/about/multi/'.$filename);
+
+            $formFields['multi_image'] = $filename;
+            $multiImage->update($formFields);
+
+            $arrNotif = array(
+                'message' => 'About Us Multi Image Updated Sucessfully',
+                'alert-type' => 'success'
+            );
+        }
+
+        $arrNotif = array(
+            'message' => 'No Image Selected!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('about.all.multi.image')->with($arrNotif);
+    }
+
+    public function destroyImage(MultiImage $multiImage){
+        $path = 'upload/about/multi/';
+        $img = $multiImage->multi_image;
+        unlink($path.$img);
+        $multiImage->delete();
+
+        $arrNotif = array(
+            'message' => 'About Us Multi Image Deleted Sucessfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($arrNotif);
     }
 }

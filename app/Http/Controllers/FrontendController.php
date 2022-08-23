@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\About;
 use App\Models\Slider;
+use App\Models\MultiImage;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -22,7 +23,11 @@ class FrontendController extends Controller
         if(count($aboutDatas) > 0){
             $aboutData = $aboutDatas[0];
         }
-        return view('frontend.index', compact('sliderData', 'aboutData'));
+
+        //get all data using Eloquent Model
+        $multiImgData = MultiImage::all();
+
+        return view('frontend.index', compact('sliderData', 'aboutData', 'multiImgData'));
     }
 
     public function aboutus(){
@@ -33,6 +38,8 @@ class FrontendController extends Controller
             $aboutData = $aboutDatas[0];
         }
 
-        return view('frontend.about_us', compact('aboutData'));
+        $multiImgData = MultiImage::all();
+
+        return view('frontend.about_us', compact('aboutData', 'multiImgData'));
     }
 }

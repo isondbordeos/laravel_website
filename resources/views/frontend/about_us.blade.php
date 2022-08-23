@@ -22,12 +22,11 @@
             </div>
             <div class="breadcrumb__wrap__icon">
                 <ul>
-                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon01.png') }}" alt=""></li>
-                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon02.png') }}" alt=""></li>
-                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon03.png') }}" alt=""></li>
-                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon04.png') }}" alt=""></li>
-                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon05.png') }}" alt=""></li>
-                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon06.png') }}" alt=""></li>
+                    @foreach ($multiImgData as $multiImg)
+                        <li>
+                            <img src="{{ $multiImg->multi_image ? asset('upload/about/multi/'.$multiImg->multi_image) : asset('upload/no_image.jpg') }}" alt="XD">
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </section>

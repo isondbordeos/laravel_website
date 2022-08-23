@@ -53,6 +53,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/home/about-us', 'viewAboutUs')->name('home.about_page');
         Route::post('/home/about-us/add', 'storeAboutUs')->name('home.about_add');
         Route::put('/home/about-us/update/{about}', 'updateAboutUs')->name('home.about_update');
+        Route::get('/about-us/multi-image', 'aboutMultiImage')->name('about.multi.image');
+        Route::post('/about-us/multi-image/add', 'storeMultiImage')->name('about.multi.image.add');
+        Route::get('/about-us/multi-image/edit/{multiImage}', 'editMultiImage')->name('about.multi.image.edit');
+        Route::put('/about-us/multi-image/update/{multiImage}', 'updateMultiImage')->name('about.multi.image.update');
+        Route::get('/about-us/all/multi-image', 'allMultiImage')->name('about.all.multi.image');
+        Route::get('/about-us/multi-image/delete/{multiImage}', 'destroyImage')->name('about.multi.image.delete');
     });
 });
 
